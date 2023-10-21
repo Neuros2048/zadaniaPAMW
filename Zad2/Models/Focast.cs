@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace P04WeatherForecastAPI.Client.Models
 {
-    internal class Focast
+    public class Focast
     {
         public Headline Headline { get; set; }
         public List<DailyForecast> DailyForecasts { get; set; }

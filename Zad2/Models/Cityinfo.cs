@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace P04WeatherForecastAPI.Client.Models
 {
-    internal class Cityinfo
+    public class Cityinfo
     {
         public GeoPosition GeoPosition { get; set; }
     }

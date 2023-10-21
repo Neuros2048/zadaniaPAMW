@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace P04WeatherForecastAPI.Client.Models
 {
-    internal class HourForcast
+    public class HourForcast
     {
      
         public string WeatherText { get; set; }

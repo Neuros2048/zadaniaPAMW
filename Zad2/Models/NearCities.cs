@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace P04WeatherForecastAPI.Client.Models
 {
-    internal class NearCities
+    public class NearCities
     {
         public string EnglishName { get; set; }
     }
