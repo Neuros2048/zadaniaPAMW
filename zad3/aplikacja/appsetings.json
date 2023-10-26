@@ -1,0 +1,14 @@
+{
+
+  "AppSettings": {
+    "DefaultLanguage": "pl",
+    "BaseAPIUrl": "http://localhost:5209",
+    "api_key": "X5Ol3ZjLHJ1yTfP2IHbVOvcG8bRvCEpz",
+
+
+    "BaseProductEndpoint": {
+      "Base_url": "/api/Library",
+      "GetAllProductsEndpoint": "/api/Library/getBooksList"
+    }
+  }
+}

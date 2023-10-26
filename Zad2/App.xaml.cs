@@ -30,7 +30,6 @@ namespace P04WeatherForecastAPI.Client
         {
             services.AddSingleton<IAccuWeatherService, AccuWeatherService>();
             services.AddSingleton<MainViewModelV4>();
-           // services.AddSingleton<BaseViewModel,MainViewModelV3>();
             services.AddTransient<MainWindow>();
         }
 
