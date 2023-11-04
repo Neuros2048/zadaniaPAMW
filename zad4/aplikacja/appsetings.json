@@ -1,0 +1,18 @@
+{
+
+  "AppSettings": {
+    "DefaultLanguage": "pl",
+    "BaseAPIUrl": "http://localhost:5209",
+    "api_key": "X5Ol3ZjLHJ1yTfP2IHbVOvcG8bRvCEpz",
+
+
+    "BaseProductEndpoint": {
+      "Base_url": "/api/Library",
+      "GetAllProductsEndpoint": "/getBooksList",
+      "GetProductEndpoint": "getBook?id={0}",
+      "ChangeProductEndpoint": "/changeBook?Title={0}&Author={1}&Description={2}&NumberOfBooks={3}&Id={4}",
+      "DeleteProductEndpoint": "/deleteBook?id={0}",
+      "AddProductEndpoint": "/addBook?Title={0}&Author={1}&Description={2}&NumberOfBooks={3}"
+    }
+  }
+}

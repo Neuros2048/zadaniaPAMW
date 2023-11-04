@@ -1,0 +1,43 @@
+﻿<Window x:Class="P04WeatherForecastAPI.Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="602" Width="1019">
+    <DockPanel>
+        <StackPanel Width="223" DockPanel.Dock="Left">
+            <Label Content="City:" ></Label>
+            <TextBox x:Name="txtCity" ></TextBox>
+            <Button x:Name="btnSearch" Content="Search" Command="{Binding LoadCitiesCommand}" CommandParameter="{Binding Text, ElementName=txtCity}" ></Button>
+            <ListBox x:Name="lbData" ItemsSource="{Binding Cities}" SelectedItem="{Binding SelectedCity}" DisplayMemberPath="LocalizedName" ></ListBox>
+        </StackPanel>
+        <StackPanel Width="284" Height="585">
+            <Label HorizontalAlignment="Center" Content="Temperature for city:" ></Label>
+            <Label x:Name="lblCityName" HorizontalAlignment="Center" Content="{Binding SelectedCity.LocalizedName }"></Label>
+            <Label  HorizontalAlignment="Center" Content="is:"></Label>
+            <Label x:Name="lblTemperatureValue" HorizontalAlignment="Center" Content="{Binding Condition.lblTemperatureValue}"></Label>
+            <Label Content="Near cities"/>
+            <Label x:Name="lblnearcities1" Content="{Binding Condition.lblnearcities1}"/>
+            <Label x:Name="lblnearcities2" Content="{Binding Condition.lblnearcities2}"/>
+            <Label x:Name="lblnearcities3" Content="{Binding Condition.lblnearcities3}"/>
+            <Label Content="Latitude"/>
+            <Label x:Name="lblLatitude" Content="{Binding Condition.lblLatitude}"/>
+            <Label Content="Longitude"/>
+            <Label x:Name="lblLongitude" Content="{Binding Condition.lblLongitude}"/>
+            <Button Content="Liblary" Height="36" VerticalAlignment="Bottom" Command="{Binding OpenShopWindowCommand}"/>
+        </StackPanel>
+        <StackPanel Width="461" Height="412" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Label Content="Weather forecast" Height="45"/>
+            <Label Content="Weather forecast today"/>
+            <Label x:Name="lblforcast" Content="{Binding Condition.lblforcast}" Height="72" Width="469"/>
+            <Label Content="Weather forecast next hour"/>
+            <Label x:Name="lblhourforcast" Content="{Binding Condition.lblhourforcast}" Height="69"/>
+            <Label Content="Weather forecast for next day"/>
+            <Label x:Name="lbl5dayforcast" Content="{Binding Condition.lbl5dayforcast}" Height="65"/>
+        </StackPanel>
+        <StackPanel Width="235" Height="262" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Image x:Name="imgstelit" Height="231" Width="NaN"/>
+        </StackPanel>
+    </DockPanel>
+</Window>
