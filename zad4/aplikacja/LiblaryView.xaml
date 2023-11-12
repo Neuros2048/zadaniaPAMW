@@ -62,7 +62,7 @@ Command="{Binding NewCommand}"
                             <!--Trzeci wiersz-->
                             <StackPanel Grid.Row="2" Orientation="Horizontal">
                                 <TextBlock Foreground="DarkGreen" Margin="0 0 10 0">
-                    <Run Text="Liczba książek: "></Run>
+                    <Run Text="Number of Books: "></Run>
                     <Run Text="{Binding NumberOfBooks}"></Run>
                                 </TextBlock>
 

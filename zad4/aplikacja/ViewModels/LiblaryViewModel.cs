@@ -104,6 +104,8 @@ namespace P04WeatherForecastAPI.Client.ViewModels
         public void Next()
         {
             page++;
+            if (page * 3 >= _books.LongCount())
+                page--;
             LoudBooks();
         }
 
