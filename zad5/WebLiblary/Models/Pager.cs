@@ -14,7 +14,7 @@ namespace WebLiblary.Models
         public Pager() { 
         }
 
-        public Pager(int totalItems,int page, int pagesize =10)
+        public Pager(int totalItems,int page, int pagesize =6)
         {
             TotalItems = totalItems;
             TotalPages = totalItems/pagesize + ( totalItems%pagesize >0 ? 1 : 0);

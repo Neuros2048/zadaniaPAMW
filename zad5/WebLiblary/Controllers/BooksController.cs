@@ -7,47 +7,51 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebLiblary.Books;
 using WebLiblary.Models;
+using WebLiblary.Services;
 
 namespace WebLiblary.Controllers
 {
     public class BooksController : Controller
     {
-        private readonly DataContext _context;
+        //private readonly DataContext _context;
 
-        public BooksController(DataContext context)
+        private readonly ILiblaryServis _liblaryServis;
+
+        public BooksController(ILiblaryServis liblaryServis)
         {
-            _context = context;
+            _liblaryServis = liblaryServis;
         }
 
         // GET: Books
         public async Task<IActionResult> Index(int pg=1)
         {
 
-            var books = await _context.Products.ToListAsync();
+            var serres = await _liblaryServis.GetProductsAsync();
+            if (!serres.Success)
+            {
+                Problem("Problem");
+            }
+            var books = serres.Data.ToList();
             var pager = new Pager(books.Count(),pg);
             this.ViewBag.Pager = pager;
             var pbook = books.Skip((pg-1)*pager.PageSize).Take(pager.PageSize).ToList();
-              return _context.Products != null ? 
-                          View(pbook) :
-                          Problem("Entity set 'DataContext.Products'  is null.");
+            return View(pbook);
+                          
         }
 
         // GET: Books/Details/5
-        public async Task<IActionResult> Details(long? id)
-        {
-            if (id == null || _context.Products == null)
+        public async Task<IActionResult> Details(long? id){
+
+
+            
+            var respond = await _liblaryServis.GetProductAsync((long)id);
+            
+            if (!respond.Success)
             {
                 return NotFound();
             }
 
-            var book = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return View(book);
+            return View(respond.Data);
         }
 
         // GET: Books/Create
@@ -65,8 +69,8 @@ namespace WebLiblary.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(book);
-                await _context.SaveChangesAsync();
+                book.Id = 0;
+                await _liblaryServis.CreateProductAsync(book);
                 return RedirectToAction(nameof(Index));
             }
             return View(book);
@@ -75,17 +79,14 @@ namespace WebLiblary.Controllers
         // GET: Books/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
-            if (id == null || _context.Products == null)
+            var respond = await _liblaryServis.GetProductAsync((long)id);
+
+            if (!respond.Success)
             {
                 return NotFound();
             }
 
-            var book = await _context.Products.FindAsync(id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-            return View(book);
+            return View(respond.Data);
         }
 
         // POST: Books/Edit/5
@@ -104,12 +105,12 @@ namespace WebLiblary.Controllers
             {
                 try
                 {
-                    _context.Update(book);
-                    await _context.SaveChangesAsync();
+                    await _liblaryServis.UpdateProductAsync(book);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookExists(book.Id))
+                    var respond = await _liblaryServis.GetProductAsync(id);
+                    if ( !respond.Success)
                     {
                         return NotFound();
                     }
@@ -126,19 +127,14 @@ namespace WebLiblary.Controllers
         // GET: Books/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
-            if (id == null || _context.Products == null)
+            var respond = await _liblaryServis.GetProductAsync((long)id);
+
+            if (!respond.Success)
             {
                 return NotFound();
             }
 
-            var book = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return View(book);
+            return View(respond.Data);
         }
 
         // POST: Books/Delete/5
@@ -146,23 +142,20 @@ namespace WebLiblary.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            if (_context.Products == null)
-            {
-                return Problem("Entity set 'DataContext.Products'  is null.");
-            }
-            var book = await _context.Products.FindAsync(id);
-            if (book != null)
-            {
-                _context.Products.Remove(book);
-            }
             
-            await _context.SaveChangesAsync();
+            
+
+            var respond = await _liblaryServis.DeleteProductAsync((long)id);
+
+            if (!respond.Success)
+            {
+                return NotFound();
+            }
+
             return RedirectToAction(nameof(Index));
+
         }
 
-        private bool BookExists(long id)
-        {
-          return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+        
     }
 }

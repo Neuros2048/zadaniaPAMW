@@ -1,0 +1,131 @@
+﻿@page "/books"
+
+
+@inject IBookService _bookservice
+@inject NavigationManager NavigationManager
+
+<h3>Books</h3>
+<button class="btn btn-primary"
+    @onclick="Creatnew"
+>Add new book</button>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Description</th>
+            <th>NumberOfBooks</th>
+
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var book in _bookservice.books)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td>@book.Author</td>
+                <td>@book.Description</td>
+                <td>@book.NumberOfBooks</td>
+                <td>
+                    <button class="btn btn-primary"
+                    @onclick="(() => ShowBook(book.Id))">
+                        <i class="oi oi-pencil"></i>
+                    </button>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+    
+
+</table>
+
+<div class="container">
+    @if (_bookservice.getPager().TotalPages > 0)
+    {
+        <ul class="pagination justify-content-end">
+            @for (var pge = _bookservice.getPager().StartPage; pge <= _bookservice.getPager().EndPage; pge++)
+            {
+                <li class="page-item @(pge == _bookservice.getPager().CurrentPage ? "active" : "" )">
+                    <a class="page-link"  onclick="changePage(@pge); return false;"> @pge </a>
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .button-container {
+            text-align: right;
+        }
+    </style>
+    <title>Twoje guziki</title>
+</head>
+
+
+<div class="button-container">
+    <button class="btn btn-primary" @onclick="previosePage">
+        LastPage
+    </button>
+    <button class="btn btn-primary" @onclick="nextPage">
+        nextPage
+    </button>
+    
+</div>
+
+<!-- Tutaj możesz dodać inne elementy HTML lub treść strony -->
+
+
+
+@code {
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+       
+
+        await _bookservice.GetBooksAsync(1);
+
+
+        //await _bookservice.GetBookAsync(1);
+    }
+
+    void ShowBook(long id)
+    {
+
+        NavigationManager.NavigateTo($"book/{id}");
+    }
+
+    async void Creatnew()
+    {
+        NavigationManager.NavigateTo($"book/0");
+    }
+
+
+
+    async Task nextPage()
+    {
+        
+        await _bookservice.GetBooksAsync(_bookservice.getPager().CurrentPage + 1);
+      
+    }
+
+    async Task previosePage()
+    {
+        
+         await _bookservice.GetBooksAsync(_bookservice.getPager().CurrentPage - 1);
+    }
+
+
+
+
+    
+}

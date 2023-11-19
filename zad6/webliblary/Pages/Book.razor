@@ -1,0 +1,83 @@
+﻿@page "/book"
+@page "/book/{id:long}"
+@inject IBookService bookservice
+@inject NavigationManager NavigationManager
+
+
+
+<PageTitle>Edit @book.Title</PageTitle>
+<h3>Edit @book.Title</h3>
+<EditForm Model="book" OnSubmit="HandleSubmit">
+	<div>
+		<label for="title">Title</label>
+		<InputText id="title" @bind-Value="book.Title" class="from-control" />
+	</div>
+	<div>
+		<label for="author">Author</label>
+		<InputText id="author" @bind-Value="book.Author" class="from-control" />
+	</div>
+	<div>
+		<label for="description">Description</label>
+		<InputText id="description" @bind-Value="book.Description" class="from-control" />
+	</div>
+	<div>
+		<label for="numberOfBooks">NumberOfBooks</label>
+		<InputNumber id="numberOfBooks" @bind-Value="book.NumberOfBooks" class="from-control" />
+		
+	</div>
+	<button type="submit" class="btn btn-primary">@btnText</button>
+	<button type="button" class="btn btn-danger" @onclick="Delatebook">Deleta book</button>
+</EditForm>
+
+@code {
+	[Parameter]
+	public long Id { get; set; }
+
+	string btnText = string.Empty;
+
+	shared.Books.Book? book = new shared.Books.Book();
+
+	protected override void OnInitialized()
+	{
+		btnText = Id == 0 ? "Add new Book" : "Ubdate book";
+	}
+
+	protected override async Task OnParametersSetAsync()
+	{
+		if (Id != 0)
+		{
+			var result = await bookservice.GetBookAsync(Id);
+			if (result is not null)
+			{
+				book = result;
+			}
+			else
+			{
+				NavigationManager.NavigateTo("/books");
+			}
+		}
+	}
+	//<div>
+	//<label for="numberOfBooks">NumberOfBooks</label>
+	//<InputText id="numberOfBooks" @bind-Value="book.NumberOfBooks" class="from-control" />
+	//</div>
+	async Task HandleSubmit()
+	{
+		if(Id == 0)
+		{
+			await bookservice.AddBook(book);
+		}
+		else
+		{
+			await bookservice.ChangeBook(book);
+		}
+		NavigationManager.NavigateTo("/books");
+	}
+
+	async Task Delatebook()
+	{
+		await bookservice.DeleteBookAsync(Id);
+		NavigationManager.NavigateTo("/books");
+	}
+
+}
