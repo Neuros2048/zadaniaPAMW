@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "40tp5UHtnaEEXQLH6cFg7N9mofce+RWzJY/VJjaPoa7ntdzuN9ntKoLpMCnMfyJACwUC0MWs/0SDG2n5dqwG8Q==",
+  "dgSpecHash": "u4bd6OoWYqTVzw7uVK+mVNF81FyitWgPhhQJVcDJGqjLdQD8fP8hhrUkHTb14lxqT1+5rsvz12hQWEppbFHtuw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Jakub Wysocki\\Desktop\\gitpamw\\zadaniaPAMW\\zad4\\Biblioteka\\Biblioteka.csproj",
   "expectedPackageFiles": [
@@ -70,11 +70,7 @@
     "C:\\Users\\Jakub Wysocki\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
     "C:\\Users\\Jakub Wysocki\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",
     "C:\\Users\\Jakub Wysocki\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
-    "C:\\Users\\Jakub Wysocki\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512",
-    "C:\\Users\\Jakub Wysocki\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.24\\microsoft.windowsdesktop.app.ref.6.0.24.nupkg.sha512",
-    "C:\\Users\\Jakub Wysocki\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.24\\microsoft.netcore.app.ref.6.0.24.nupkg.sha512",
-    "C:\\Users\\Jakub Wysocki\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.24\\microsoft.aspnetcore.app.ref.6.0.24.nupkg.sha512",
-    "C:\\Users\\Jakub Wysocki\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.24\\microsoft.netcore.app.host.win-x64.6.0.24.nupkg.sha512"
+    "C:\\Users\\Jakub Wysocki\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
   ],
   "logs": []
 }
