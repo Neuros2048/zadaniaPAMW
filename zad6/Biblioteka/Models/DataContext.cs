@@ -1,6 +1,7 @@
 ﻿using shared.Books;
 using Biblioteka.Services;
 using Microsoft.EntityFrameworkCore;
+using Biblioteka.Auth;
 
 namespace Biblioteka.Models
 {
@@ -12,6 +13,8 @@ namespace Biblioteka.Models
         }
 
         public DbSet<Book> Products { get; set; }
+
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,6 +36,36 @@ namespace Biblioteka.Models
             modelBuilder.Entity<Book>()
              .Property(p => p.NumberOfBooks)
              .IsRequired();
+            
+            //USer
+
+            modelBuilder.Entity<User>()
+                .HasKey(x => x.Id);
+
+            modelBuilder.Entity<User>()
+                .Property(p => p.Email)
+                .IsRequired();
+                
+
+            modelBuilder.Entity<User>()
+                .Property(p => p.PasswordHash)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(p => p.PasswordSalt)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(p => p.Role)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(p => p.Username)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(p => p.DateCreated)
+                .IsRequired();
 
             // data seed 
 

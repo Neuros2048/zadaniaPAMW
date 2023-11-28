@@ -106,8 +106,24 @@ namespace P04WeatherForecastAPI.Client.ViewModels
             liblaryView.Show();
             
             productsViewModel.GetProducts();
+            liblaryView.Close();
         }
 
+
+        [RelayCommand]
+        public void Login()
+        {
+            LoginView loginView = _serviceProvider.GetService<LoginView>();
+            loginView.Show();
+        }
+
+
+        [RelayCommand]
+        public void Register()
+        {
+            RegisterView register = _serviceProvider.GetService<RegisterView>();
+            register.Show();
+        }
 
 
 

@@ -16,6 +16,8 @@ using P04WeatherForecastAPI.Client.Configurations;
 using Microsoft.Extensions.Options;
 using shared.Books;
 using shared.service;
+using Newtonsoft.Json.Linq;
+using System.Net.Http.Headers;
 
 namespace P04WeatherForecastAPI.Client.Services
 {
@@ -80,7 +82,8 @@ namespace P04WeatherForecastAPI.Client.Services
         // alternatywny sposób pobierania danych 
         public async Task<ServiceResponse<List<Book>>> GetProductsAsync()
             {
-                var response = await _httpClient.GetAsync(_appSettings.BaseProductEndpoint.Base_url + _appSettings.BaseProductEndpoint.GetAllProductsEndpoint);
+            
+            var response = await _httpClient.GetAsync(_appSettings.BaseProductEndpoint.Base_url + _appSettings.BaseProductEndpoint.GetAllProductsEndpoint);
                 var json = await response.Content.ReadAsStringAsync();
                 var result = JsonConvert.DeserializeObject<ServiceResponse<List<Book>>>(json);
                 return result;

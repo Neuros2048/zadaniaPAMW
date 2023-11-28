@@ -15,7 +15,7 @@
         </StackPanel>
         <Button Grid.Row="3" 
 Command="{Binding NewCommand}" 
-  Content="New Product" Height="64" >
+  Content="New Product" Height="40" >
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="border" BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Background="{TemplateBinding Background}">
@@ -40,6 +40,62 @@ Command="{Binding NewCommand}"
                 </Style>
             </Button.Style>
         </Button>
+
+        <Button Grid.Row="3" 
+Command="{Binding ChangepassCommand}" 
+  Content="Change Password" Height="40" >
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border" BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="SkyBlue" />
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="SteelBlue" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="Padding" Value="10,5" />
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="3" 
+Command="{Binding LogoutCommand}" 
+  Content="Logout" Height="40" >
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border" BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="SkyBlue" />
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="SteelBlue" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="Padding" Value="10,5" />
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Style>
+            </Button.Style>
+        </Button>
+        
         <ListView Height="500" ItemsSource="{Binding Books}">
             <ListView.ItemTemplate>
                 <DataTemplate>

@@ -25,7 +25,9 @@
             <Label x:Name="lblLatitude" Content="{Binding Condition.lblLatitude}"/>
             <Label Content="Longitude"/>
             <Label x:Name="lblLongitude" Content="{Binding Condition.lblLongitude}"/>
-            <Button Content="Liblary" Height="36" VerticalAlignment="Bottom" Command="{Binding OpenShopWindowCommand}"/>
+            <Button Content="Login" Height="36" VerticalAlignment="Bottom" Command="{Binding LoginCommand}" />
+            <Button Content="Register" Height="36" VerticalAlignment="Bottom" Command="{Binding RegisterCommand}" />
+            <Button Content="Liblary" Height="36" VerticalAlignment="Bottom" Command="{Binding OpenShopWindowCommand}" />
         </StackPanel>
         <StackPanel Width="461" Height="412" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Label Content="Weather forecast" Height="45"/>

@@ -1,6 +1,7 @@
 ﻿
 using Biblioteka.Services;
 using Microsoft.EntityFrameworkCore;
+using WebLiblary.Auth;
 using WebLiblary.Books;
 
 namespace WebLiblary.Models
@@ -13,6 +14,8 @@ namespace WebLiblary.Models
         }
 
         public DbSet<Book> Products { get; set; }
+        
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

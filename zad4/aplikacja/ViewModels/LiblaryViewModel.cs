@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace P04WeatherForecastAPI.Client.ViewModels
 {
@@ -17,27 +18,44 @@ namespace P04WeatherForecastAPI.Client.ViewModels
         public ObservableCollection<Book> Books { get; set; }
         private readonly ILiblaryServis _liblaryServis;
         private readonly EditBookView _editBookView;
+        private readonly IServiceProvider _serviceProvider;
+
+        private String token;
 
 
         [ObservableProperty]
         private Book selectedBook;
 
-        public LiblaryViewModel(ILiblaryServis liblaryServis, EditBookView editBookView)
+        public LiblaryViewModel(ILiblaryServis liblaryServis, EditBookView editBookView, IServiceProvider serviceProvider)
         {
             _liblaryServis = liblaryServis;
             Books = new ObservableCollection<Book>();
             _editBookView = editBookView;
+            token = null;
+            _serviceProvider  = serviceProvider;
         }
         private int page = 0;
         private List<Book> _books;
         public async void GetProducts()
         {
-            var productsResult = await _liblaryServis.GetProductsAsync();
-            if (productsResult.Success)
+            if (token != null)
             {
-                _books = productsResult.Data;
-                LoudBooks();
+                var productsResult = await _liblaryServis.GetProductsAsync();
+                if (productsResult.Success)
+                {
+                    _books = productsResult.Data;
+                    LoudBooks();
+                }
             }
+        }
+
+        public void setToken(String _token)
+        {
+            this.token = _token;
+        }
+        public void nullToken()
+        {
+            token = null;
         }
 
         private void LoudBooks()
@@ -52,43 +70,51 @@ namespace P04WeatherForecastAPI.Client.ViewModels
 
         public async Task DeleteProduct()
         {
-            await _liblaryServis.DeleteProductAsync(selectedBook.Id);
-            GetProducts();
-
+            if (token != null)
+            {
+                await _liblaryServis.DeleteProductAsync(selectedBook.Id);
+                GetProducts();
+            }
         }
 
         public async Task CreateProduct()
         {
-            var newProduct = new Book()
+            if (token != null)
             {
-                Title = selectedBook.Title,
-                Description = selectedBook.Description,
-                Author = selectedBook.Author,
-                NumberOfBooks = selectedBook.NumberOfBooks,
-            };
+                var newProduct = new Book()
+                {
+                    Title = selectedBook.Title,
+                    Description = selectedBook.Description,
+                    Author = selectedBook.Author,
+                    NumberOfBooks = selectedBook.NumberOfBooks,
+                };
 
-            var result = await _liblaryServis.AddProduct(newProduct);
-            if (result.Success)
-                GetProducts();
-            //else
-               // _messageDialogService.ShowMessage(result.Message);
+                var result = await _liblaryServis.AddProduct(newProduct);
+                if (result.Success)
+                    GetProducts();
+                //else
+                // _messageDialogService.ShowMessage(result.Message);
+            }
         }
 
         public async Task UpdateProduct()
         {
-            var productToUpdate = new Book()
+            if (token != null)
             {
-                Title = selectedBook.Title,
-                Description = selectedBook.Description,
-                Author = selectedBook.Author,
-                NumberOfBooks = selectedBook.NumberOfBooks,
-                Id = selectedBook.Id,
-            };
+                var productToUpdate = new Book()
+                {
+                    Title = selectedBook.Title,
+                    Description = selectedBook.Description,
+                    Author = selectedBook.Author,
+                    NumberOfBooks = selectedBook.NumberOfBooks,
+                    Id = selectedBook.Id,
+                };
 
-            var  result = await _liblaryServis.ChangeProduct(productToUpdate);
-            GetProducts();
-            if (result.Success)
+                var result = await _liblaryServis.ChangeProduct(productToUpdate);
                 GetProducts();
+                if (result.Success)
+                    GetProducts();
+            }
         }
 
 
@@ -113,44 +139,73 @@ namespace P04WeatherForecastAPI.Client.ViewModels
         [RelayCommand]
         public async Task ShowDetails(Book product)
         {
-            _editBookView.Show();
-            _editBookView.DataContext = this;
+            if (token != null)
+            {
+                _editBookView.Show();
+                _editBookView.DataContext = this;
 
-            SelectedBook = product;
+                SelectedBook = product;
+            }
         }
 
         [RelayCommand]
         public async Task New()
         {
-            _editBookView.Show();
-            _editBookView.DataContext = this;
+            if (token != null)
+            {
+                _editBookView.Show();
+                _editBookView.DataContext = this;
 
-            SelectedBook = new Book();
+                SelectedBook = new Book();
+            }
         }
 
         [RelayCommand]
         public async Task Delete()
         {
-            DeleteProduct();
-            //_editBookView.Close();
-            _editBookView.Hide();
+            if (token != null)
+            {
+                DeleteProduct();
+                //_editBookView.Close();
+                _editBookView.Hide();
+            }
         }
 
         [RelayCommand]
         public async Task Save()
         {
-            if (selectedBook.Id == 0)
+            if (token != null)
             {
-                CreateProduct();
+                if (selectedBook.Id == 0)
+                {
+                    CreateProduct();
+                }
+                else
+                {
+                    UpdateProduct();
+                }
+                _editBookView.Close();
             }
-            else
-            {
-                UpdateProduct();
-            }
-            _editBookView.Close();
 
         }
 
+        [RelayCommand]
+        public async Task Logout()
+        {
+            nullToken();
+            Books.Clear();
+            _books.Clear();
+        }
+
+        [RelayCommand]
+        public async Task Changepass()
+        {
+            if (token != null)
+            {
+                CHangePasswordView changePasswordView = _serviceProvider.GetService<CHangePasswordView>();
+                changePasswordView.Show();
+            }
+        }
 
     }
 }

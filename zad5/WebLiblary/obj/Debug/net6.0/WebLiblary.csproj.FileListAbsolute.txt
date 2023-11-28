@@ -588,3 +588,4 @@ C:\Users\Jakub Wysocki\Desktop\gitpamw\zadaniaPAMW\zad5\WebLiblary\obj\Debug\net
 C:\Users\Jakub Wysocki\Desktop\gitpamw\zadaniaPAMW\zad5\WebLiblary\obj\Debug\net6.0\WebLiblary.pdb
 C:\Users\Jakub Wysocki\Desktop\gitpamw\zadaniaPAMW\zad5\WebLiblary\obj\Debug\net6.0\WebLiblary.genruntimeconfig.cache
 C:\Users\Jakub Wysocki\Desktop\gitpamw\zadaniaPAMW\zad5\WebLiblary\obj\Debug\net6.0\ref\WebLiblary.dll
+C:\Users\Jakub Wysocki\Desktop\gitpamw\zadaniaPAMW\zad5\WebLiblary\obj\Debug\net6.0\WebLiblary.sourcelink.json

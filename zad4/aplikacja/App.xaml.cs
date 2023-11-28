@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using System.Net.Http;
 
 namespace P04WeatherForecastAPI.Client
 {
@@ -57,13 +58,22 @@ namespace P04WeatherForecastAPI.Client
         {
             services.AddSingleton<IAccuWeatherService, AccuWeatherService>();
             services.AddSingleton<ILiblaryServis, LiblaryServis>();
+            services.AddSingleton<IAuthService, AuthService>();
 
             services.AddSingleton<MainViewModelV4>();
             services.AddSingleton<LiblaryViewModel>();
 
+            services.AddSingleton<LoginViewModel>();
+            services.AddSingleton<RegisterViewModel>();
+            services.AddSingleton<ChangePassowrViewModel>();
+            
+
             services.AddTransient<MainWindow>();
             services.AddTransient<LiblaryView>();
             services.AddTransient<EditBookView>();
+            services.AddTransient<RegisterView>();
+            services.AddTransient<CHangePasswordView>();
+            services.AddTransient<LoginView>();
 
 
 
@@ -76,7 +86,7 @@ namespace P04WeatherForecastAPI.Client
                 Path = appSettingsSection.BaseProductEndpoint.Base_url,
             };
             //Microsoft.Extensions.Http
-            services.AddHttpClient<ILiblaryServis, LiblaryServis>(client => client.BaseAddress = uriBuilder.Uri);
+            services.AddScoped(sp => new HttpClient { BaseAddress = uriBuilder.Uri });
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
