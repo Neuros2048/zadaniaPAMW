@@ -11,7 +11,7 @@ namespace Biblioteka.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class LibraryController : Controller
     {
 

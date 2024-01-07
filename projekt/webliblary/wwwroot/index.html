@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="assets/img/favicon.png">
+    <title>
+        Argon Dashboard 2 by Creative Tim
+    </title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Nucleo Icons -->
+    <link href="assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link href="assets/css/moje.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link href="assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link id="pagestyle" href="assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+    <style>
+        #map {
+            height: 400px;
+        }
+    </style>
+</head>
+
+
+
+<body>
+
+    <div id="app">Loading...</div>
+
+    <div id="blazor-error-ui">
+        <!--An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>-->
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <!--   Core JS Files   -->
+
+    <script src="assets/js/core/popper.min.js"></script>
+    <script src="assets/js/core/bootstrap.min.js"></script>
+    <script src="assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script>
+        var win = navigator.platform.indexOf('Win') > -1;
+        if (win && document.querySelector('#sidenav-scrollbar')) {
+            var options = {
+                damping: '0.5'
+            }
+            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+        }
+    </script>
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+    <script>
+
+        window.getCoords = async () => {
+            const pos = await new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(resolve, reject);
+            });
+            return pos.coords.latitude + ', ' + pos.coords.longitude
+
+        };
+    </script>
+    <script>
+
+        var lange = "en"
+        function changeLanguage() {
+            var checkbox = document.getElementById("lang-pl");
+
+            if (checkbox.checked) {
+                var elements = document.getElementsByClassName("lpl");
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].style.display = "block";
+                }
+                var elements = document.getElementsByClassName("len");
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].style.display = "none";
+                }
+                lange = "pl";
+            } else {
+                lange = "en";
+                var elements = document.getElementsByClassName("lpl");
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].style.display = "none";
+                }
+                var elements = document.getElementsByClassName("len");
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].style.display = "block";
+                }
+            }
+
+            console.log("Selected theme: " + lange);
+
+
+        }
+
+    </script>
+    <script>
+        function getMap() { 
+            navigator.geolocation.getCurrentPosition((position) => {
+                let {
+                    latitude,
+                    longitude
+                } = position.coords;
+                var map = L.map('map').setView([latitude, longitude], 19);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    minZoom: 1,
+                    attribution: '© OpenStreetMap'
+                }).addTo(map);
+                L.marker([latitude, longitude]).addTo(map);
+            });
+            console.log("hiisse: ");
+            }
+
+    </script>
+    </bodyclass="g-sidenav-show>
+
+</html>

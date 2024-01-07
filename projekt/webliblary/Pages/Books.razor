@@ -1,0 +1,174 @@
+﻿@page "/books"
+
+@attribute [Authorize]
+@inject IBookService _bookservice
+@inject NavigationManager NavigationManager
+ @if (!lange)
+{
+    <h3>Books</h3>
+}
+else
+{
+    <h3>Książki</h3>
+}
+
+<button class="btn bg-gradient-primary btn-tooltip"
+    @onclick="Creatnew">
+    @if (!lange)
+    {
+        <span>Add new book</span>
+    }
+    else
+    {
+        <span>Dodaj nową książke</span>
+    }
+</button>
+
+
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table align-items-center mb-0">
+            <thead>
+                <tr>
+                    
+                    @if (!lange)
+                    {
+                     
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Author</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NumberOfBooks</th>
+                        <th class="text-secondary opacity-7"></th>
+                    }
+                    else
+                    {
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tytuł</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Author</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Opis</th>
+                        <th class=" text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Liczba Książek</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                
+
+                @foreach (var book in _bookservice.books)
+                {
+                    <tr>
+
+                        <td><p class="text-xs font-weight-bold mb-0">@book.Title</p></td>
+                        <td><p class="text-xs font-weight-bold mb-0">@book.Author</p></td>
+                        <td><p class="text-xs font-weight-bold mb-0">@book.Description</p></td>
+                        <td><p class="text-center text-xs font-weight-bold mb-0">@book.NumberOfBooks</p></td>
+                        <td>
+                            <button type="button" @onclick="(() => ShowBook(book.Id))" class="btn bg-gradient-info">
+                            
+                                
+                                @if (!lange)
+                                {
+                                    <stan>Edit</stan>
+                                }
+                                else
+                                {
+                                    <stan>Edytuj</stan>
+                                }
+                            </button>
+                            
+                        </td>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+<div class="pagination justify-content-end">
+<div class="btn bg-gradient-default">
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" @onclick="previosePage" aria-label="Previous">
+                        <i class="fa fa-angle-left"></i>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                @for (var pge = _bookservice.getPager().StartPage; pge <= _bookservice.getPager().EndPage; pge++)
+                {
+                    <li class="page-item @(pge == _bookservice.getPager().CurrentPage ? "active" : "" )"><a class="page-link" onclick=changePage(@pge)>@pge</a></li>
+                }
+                <li class="page-item">
+                    <a class="page-link" @onclick="nextPage" aria-label="Next">
+                        <i class="fa fa-angle-right"></i>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+ 
+    
+    
+</div>
+</div>
+
+<!-- Tutaj możesz dodać inne elementy HTML lub treść strony -->
+
+
+
+@code {
+
+
+    [CascadingParameter]
+    public bool lange { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+
+
+
+        await _bookservice.GetBooksAsync(1);
+
+
+        //await _bookservice.GetBookAsync(1);
+    }
+
+    void ShowBook(long id)
+    {
+
+        NavigationManager.NavigateTo($"book/{id}");
+    }
+
+    async void Creatnew()
+    {
+        NavigationManager.NavigateTo($"book/0");
+    }
+
+
+
+    async Task nextPage()
+    {
+
+        await _bookservice.GetBooksAsync(_bookservice.getPager().CurrentPage + 1);
+
+    }
+
+    async Task previosePage()
+    {
+
+        await _bookservice.GetBooksAsync(_bookservice.getPager().CurrentPage - 1);
+    }
+
+    async Task changePage(int page)
+    {
+        await _bookservice.GetBooksAsync(page);
+    }
+
+
+
+    
+}

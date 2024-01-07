@@ -1,0 +1,217 @@
+﻿@page "/book"
+@page "/book/{id:long}"
+@attribute [Authorize]
+@inject IBookService bookservice
+@inject NavigationManager NavigationManager
+
+
+
+<div>
+
+    <main class="main-content  mt-0">
+
+        <section>
+            <div class="page-header min-vh-100">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
+                            <div class="card  z-index-0">
+								<EditForm Model="book" OnSubmit="HandleSubmit">
+                                    <div class="card-header pb-0 text-start">
+                                        <h4 class="font-weight-bolder">
+											@if (!lange)
+											{
+												@if (Id == 0)
+												{
+													<span>Add new Book</span>
+
+												}
+												else
+												{
+													<span>Update book</span>
+												}
+											}
+											else
+											{
+												@if (Id == 0)
+												{
+													<span>Dodaj nową książke</span>
+												}
+												else
+												{
+													<span>Edytuj książke</span>
+												}
+											}
+
+
+                                        </h4>
+                                        <p class="mb-0">
+                                            @book.Title
+                                        </p>
+                                    </div>
+                                    <div class="card-body">
+										@if (!lange)
+										{
+											<div class="mb-3">
+												<p>Title:</p>
+												<InputText @bind-Value="book.Title" id="title" class="form-control form-control-lg"></InputText>
+											</div>
+											<div class="mb-3">
+												<p>Author:</p>
+												<InputText @bind-Value="book.Author" id="author" class="form-control form-control-lg"></InputText>
+											</div>
+											<div class="mb-3">
+												<p>Description:</p>
+												<InputText @bind-Value="book.Description" id="description" class="form-control form-control-lg"></InputText>
+											</div>
+											<div class="mb-3">
+												<p>NumberOfBooks:</p>
+												<InputNumber id="numberOfBooks" @bind-Value="book.NumberOfBooks" class="from-control form-control-lg" />
+											</div>
+										}
+										else
+										{
+											<div class="mb-3">
+												<p>Tytuł:</p>
+												<InputText @bind-Value="book.Title" id="title" class="form-control form-control-lg"></InputText>
+											</div>
+											<div class="mb-3">
+												<p>Author:</p>
+												<InputText @bind-Value="book.Author" id="author" class="form-control form-control-lg"></InputText>
+											</div>
+											<div class="mb-3">
+												<p>Opis:</p>
+												<InputText @bind-Value="book.Description" id="description" class="form-control form-control-lg"></InputText>
+											</div>
+											<div class="mb-3">
+												<p>Liczba książek:</p>
+												<InputNumber id="numberOfBooks" @bind-Value="book.NumberOfBooks" class="from-control form-control-lg" />
+											</div>
+										}
+                                       
+                                        <div class="text-center">
+											<button type="submit" class="btn bg-gradient-success">
+
+
+                                                @if (!lange)
+                                                {
+													@if (Id == 0)
+													{
+														<span>Add new Book</span>
+														
+													}
+													else
+													{
+														<span>Update book</span>
+													}
+												}
+                                                else
+                                                {
+													@if (Id == 0)
+													{
+														<span>Dodaj nową książke</span>
+													}
+													else
+													{
+														<span>Edytuj książke</span>
+													}
+                                                }
+
+
+                                            </button>
+											<button type="button" class="btn bg-gradient-danger" @onclick="Delatebook">
+												@if (!lange)
+												{
+													@if (Id == 0)
+													{
+														<span>Stop</span>
+
+													}
+													else
+													{
+														<span>Delate book</span>
+													}
+												}
+												else
+												{
+													@if (Id == 0)
+													{
+														<span>Przerwij</span>
+													}
+													else
+													{
+														<span>Usuń książke</span>
+													}
+												}
+
+											</button>
+                                        </div>
+                                    </div>
+                                    
+                                </EditForm>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+</div>
+
+
+@code {
+	[CascadingParameter]
+	public bool lange { get; set; }
+	[Parameter]
+	public long Id { get; set; }
+
+	string btnText = string.Empty;
+
+	shared.Books.Book? book = new shared.Books.Book();
+
+	protected override void OnInitialized()
+	{
+		btnText = Id == 0 ? "Add new Book" : "Ubdate book";
+	}
+
+	protected override async Task OnParametersSetAsync()
+	{
+		if (Id != 0)
+		{
+			var result = await bookservice.GetBookAsync(Id);
+			if (result is not null)
+			{
+				book = result;
+			}
+			else
+			{
+				NavigationManager.NavigateTo("/books");
+			}
+		}
+	}
+	//<div>
+	//<label for="numberOfBooks">NumberOfBooks</label>
+	//<InputText id="numberOfBooks" @bind-Value="book.NumberOfBooks" class="from-control" />
+	//</div>
+	async Task HandleSubmit()
+	{
+		if(Id == 0)
+		{
+			await bookservice.AddBook(book);
+		}
+		else
+		{
+			await bookservice.ChangeBook(book);
+		}
+		NavigationManager.NavigateTo("/books");
+	}
+
+	async Task Delatebook()
+	{
+		await bookservice.DeleteBookAsync(Id);
+		NavigationManager.NavigateTo("/books");
+	}
+
+}
