@@ -1,0 +1,62 @@
+﻿@page "/"
+@inject IAuthService AuthService
+@inject ILocalStorageService LocalStorageService
+@using System.Security.Claims;
+@inherits LayoutComponentBase
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+
+
+<div class="main-content position-relative max-height-vh-100 h-100">
+    <div class="mojecos1">
+        @if (!lange)
+    {
+        <AuthorizeView>
+                    <Authorized>
+                    <h3>
+                        Hello  <span>
+
+                        </span>
+                    </h3>
+                    <div>
+                        @context.User.Identity.Name |
+                        @context.User.Claims.Where(c => c.Type == ClaimTypes.Role).FirstOrDefault().Value
+                    </div>
+                    
+                </Authorized>
+                    <NotAuthorized> 
+                        <h3> Hello</h3>
+                    </NotAuthorized>
+        </AuthorizeView>
+    }
+    else
+    {
+            <AuthorizeView>
+                <Authorized>
+                    <h3> Witaj</h3>
+                    <div>
+                        @context.User.Identity.Name |
+                        @context.User.Claims.Where(c => c.Type == ClaimTypes.Role).FirstOrDefault().Value
+                    </div>
+                </Authorized>
+                <NotAuthorized>
+                    <h3> Witaj</h3>
+                </NotAuthorized>
+            </AuthorizeView>
+    }
+    
+    
+        
+    </div>
+    
+
+</div>
+
+@code {
+
+    [CascadingParameter]
+    public bool lange { get; set; }
+}
+
+

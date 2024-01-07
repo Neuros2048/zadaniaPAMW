@@ -1,0 +1,67 @@
+﻿@page "/boom"
+@inject IAuthService AuthService
+@inject ILocalStorageService LocalStorageService
+@using System.Security.Claims;
+@inherits LayoutComponentBase
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@attribute [Authorize]
+
+<div class="mojecos1">
+   
+    @if (!lange)
+    {
+        
+        <AuthorizeView>
+            <Authorized>
+                
+                @if (context.User.Claims.Where(c => c.Type == ClaimTypes.Role).FirstOrDefault().Value == "ADMIN")
+                {
+                    <h3>
+                        Hello ADMIN
+                    </h3>
+                }
+                else
+                {
+                    <h3>
+                        You are not admin
+                    </h3>
+                }
+
+            </Authorized>
+        </AuthorizeView>
+    }
+    else
+    {
+        <AuthorizeView>
+            <Authorized>
+
+                @if (context.User.Claims.Where(c => c.Type == ClaimTypes.Role).FirstOrDefault().Value == "ADMIN")
+                {
+                    <h3>
+                        Witaj adminie
+                    </h3>
+                }
+                else
+                {
+                    <h3>
+                        Nie jesteś adminem
+                    </h3>
+                }
+
+            </Authorized>
+        </AuthorizeView>
+    }
+
+
+
+</div>
+
+
+   
+
+@code {
+
+    [CascadingParameter]
+    public bool lange { get; set; }
+}

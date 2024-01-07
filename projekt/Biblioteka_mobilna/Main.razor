@@ -1,11 +1,69 @@
-﻿<Router AppAssembly="@typeof(Main).Assembly">
+﻿@inject Language _lang
+<CascadingAuthenticationState>
+<Router AppAssembly="@typeof(Main).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-    </Found>
-    <NotFound>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
-        </LayoutView>
-    </NotFound>
+     <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" >
+                <NotAuthorized>
+                    
+                    
+                        <div class="mojecos1">
+                        @if (!_lang.lang)
+                        {
+                            <h3> <span>Whoops! You're not allowed to see this page.</span></h3>
+                        <h5>
+                            Please <a href="login">
+                                login
+                            </a> or <a href="register">
+                                register
+                                </a>for a new account.
+                            
+                         </h5>
+                        }
+                        else
+                        {
+                            <h3> <span >Hola! Nie jesteś dozwolony do zobaczanie tej strony</span></h3>
+                        <h5>
+                            Please <a href="login">
+                                Zaloguj
+                            </a>lub <a href="register">
+                                Zajerestrój
+                            </a> aby utworzyć nowe konto
+                           
+                        </h5>
+                        }
+                    </div>
+                       
+                </NotAuthorized>
+            </AuthorizeRouteView>
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+        <NotFound>
+            <PageTitle>
+                @if (!_lang.lang)
+                {
+                    <span>Not found</span>
+                }
+                else
+                {
+                    <span>Nie zanleziono</span>
+                }
+            </PageTitle>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p role="alert">
+                    @if (!_lang.lang)
+                    {
+                        <span >Sorry, there's nothing at this address.</span>
+                    }
+                    else
+                    {
+                        <span >Przykro mi ale nic nie ma pod tym adresem</span>
+                    }
+                    
+                    
+                </p>
+            </LayoutView>
+        </NotFound>
+
+
 </Router>
+</CascadingAuthenticationState>

@@ -1,0 +1,49 @@
+﻿@page "/Login2"
+
+
+@inject IAuthService AuthService
+@inject ILocalStorageService LocalStorageService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+
+
+<EditForm Model="userLoginDTO" OnValidSubmit="HandleLogin">
+
+    <p>Email:</p>
+    <InputText @bind-Value="userLoginDTO.Email" id="email"></InputText>
+    <p>Password:</p>
+    <InputText @bind-Value="userLoginDTO.Password" id="password"></InputText>
+
+    <button type="submit">Login In</button>
+
+</EditForm>
+
+@if (!string.IsNullOrEmpty(message))
+{
+    <p>@message</p>
+}else{
+}
+
+@code {
+
+    private UserLoginDTO userLoginDTO = new UserLoginDTO();
+    private string message = string.Empty;
+
+    private async Task HandleLogin()
+    {
+        var result = await AuthService.Login(userLoginDTO);
+        if (result.Success)
+        {
+            await LocalStorageService.SetItemAsync("authToken", result.Data);
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            message = result.Message;
+        }
+    }
+
+}

@@ -1,0 +1,26 @@
+﻿@page "/geo"
+@page "/call-js-example-1"
+@inject IJSRuntime JS
+<!--
+<button @onclick="GetLocation">Get location</button>
+<h3> @geoLocation </h3>-->
+
+<div class="mojesrodek" id="map"></div>
+
+@code {
+    string geoLocation = string.Empty;
+
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        geoLocation = await GetLocation();
+        
+    }
+
+    private async Task<string> GetLocation()
+    {
+        await JS.InvokeAsync<string>("getMap");
+        return await JS.InvokeAsync<string>("getCoords");
+
+    }
+}
