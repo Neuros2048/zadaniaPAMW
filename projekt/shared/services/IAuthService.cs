@@ -1,7 +1,12 @@
 ﻿using shared.Auth;
 using shared.service;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace webliblary.services
+namespace shared.services
 {
     public interface IAuthService
     {

@@ -85,7 +85,7 @@ namespace Biblioteka.Controllers
 
             await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, new AuthenticationProperties
             {
-                RedirectUri = "https://localhost:7166"
+                RedirectUri = "https://localhost:7012"
             });
             
         }
